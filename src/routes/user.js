@@ -1,9 +1,10 @@
 import express from 'express';
 import { getAllUsers, getUserById } from '../controllers/userController.js';
+import { authenticateToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.get('/', getAllUsers);
-router.get('/:id', getUserById);
+router.get('/', authenticateToken, getAllUsers);
+router.get('/:id', authenticateToken, getUserById);
 
 export default router;

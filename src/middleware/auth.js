@@ -12,14 +12,12 @@ import { sendError } from '../utils/response.js';
 export const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = extractToken(authHeader);
-  console.log(token);
   if (!token) {
     return sendError(res, 'Access token required', HTTP_STATUS.UNAUTHORIZED);
   }
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(decoded);
     req.userId = decoded.id;
     next();
   } catch {

@@ -7,7 +7,8 @@ import { handleError, sendResponse } from '../utils/response.js';
 
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await getAllUsersService();
+    const userId = req.userId;
+    const users = await getAllUsersService(userId);
     return sendResponse(res, HTTP_STATUS.OK, users);
   } catch (error) {
     return handleError(

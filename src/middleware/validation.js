@@ -19,7 +19,6 @@ export const validateSchema = (schema, source = 'body') => {
     try {
       const data = req[source];
       const validatedData = schema.parse(data);
-
       // Replace original data with validated/transformed data
       req[source] = validatedData;
 
@@ -42,19 +41,6 @@ export const validateSchema = (schema, source = 'body') => {
     }
   };
 };
-
-/**
- * Auth validation middlewares
- */
-export const validateSignup = validateSchema(signupSchema);
-export const validateLogin = validateSchema(loginSchema);
-
-/**
- * Chat validation middlewares
- */
-export const validateCreateChat = validateSchema(createChatSchema);
-export const validateSendMessage = validateSchema(sendMessageSchema);
-export const validateChatIdParams = validateSchema(chatIdParamSchema);
 
 /**
  * Helpers to validate specific sources
@@ -80,3 +66,16 @@ export const validateFields = (requiredFields) => {
     next();
   };
 };
+
+/**
+ * Auth validation middlewares
+ */
+export const validateSignup = validateSchema(signupSchema);
+export const validateLogin = validateSchema(loginSchema);
+
+/**
+ * Chat validation middlewares
+ */
+export const validateCreateChat = validateSchema(createChatSchema);
+export const validateSendMessage = validateSchema(sendMessageSchema);
+export const validateChatIdParams = validateParams(chatIdParamSchema);

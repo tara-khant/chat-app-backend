@@ -26,7 +26,7 @@ app.use(express.json());
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/chat', chatRoutes);
+app.use('/api/chats', chatRoutes);
 app.use('/api/users', userRoutes);
 
 // Socket.IO
@@ -39,7 +39,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('sendMessage', ({ chatId, message }) => {
-    io.to(chatId).emit('receiveMessage', message);
+    socket.to(chatId).emit('receiveMessage', message);
   });
 
   socket.on('disconnect', () => {
@@ -47,5 +47,6 @@ io.on('connection', (socket) => {
   });
 });
 
+app.set('io', io);
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

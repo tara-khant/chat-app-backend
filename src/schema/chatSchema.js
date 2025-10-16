@@ -1,10 +1,13 @@
-// src/config/schema/chatSchema.js
 import { z } from 'zod';
 
 export const createChatSchema = z.object({
-  members: z
-    .array(z.string().nonempty())
-    .min(1, { message: 'At least one member is required to create a chat' }),
+  members: z.array(z.string().nonempty()).default([]),
+  name: z
+    .string()
+    .min(3, { message: 'Chat name must be at least 3 characters' })
+    .max(50, { message: 'Chat name must be at most 50 characters' })
+    .nullable()
+    .optional(),
 });
 
 export const sendMessageSchema = z.object({

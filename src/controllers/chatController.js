@@ -12,14 +12,9 @@ import {
 // Create a new chat
 export const createChat = async (req, res) => {
   try {
-    const { members } = req.body;
-    if (!members || !Array.isArray(members) || members.length === 0) {
-      return sendResponse(res, HTTP_STATUS.BAD_REQUEST, {
-        message: 'Members array is required',
-      });
-    }
-
-    const chat = await createChatService(members);
+    const { members, name } = req.body;
+    const userId = req.userId;
+    const chat = await createChatService(members, name, userId);
     sendResponse(res, HTTP_STATUS.CREATED, chat);
   } catch (error) {
     handleError(res, error, ERROR_MESSAGES.FAILED_CREATE_CHAT, 'Chat Create');
@@ -30,14 +25,8 @@ export const createChat = async (req, res) => {
 export const sendMessage = async (req, res) => {
   try {
     const { chatId, senderId, text } = req.body;
-
-    if (!chatId || !senderId || !text) {
-      return sendResponse(res, HTTP_STATUS.BAD_REQUEST, {
-        message: 'chatId, senderId, and text are required',
-      });
-    }
-
-    const result = await sendMessageService({ chatId, senderId, text });
+    const io = req.app.get('io');
+    const result = await sendMessageService({ chatId, senderId, text, io });
 
     sendResponse(res, HTTP_STATUS.OK, result);
   } catch (error) {
@@ -71,12 +60,6 @@ export const getMyChats = async (req, res) => {
 export const getChatMessages = async (req, res) => {
   try {
     const chatId = req.params.chatId;
-    if (!chatId) {
-      return sendResponse(res, HTTP_STATUS.BAD_REQUEST, {
-        message: 'chatId is required',
-      });
-    }
-
     const messages = await getMessagesByChatService(chatId);
     sendResponse(res, HTTP_STATUS.OK, messages);
   } catch (error) {
