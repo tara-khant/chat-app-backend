@@ -30,5 +30,5 @@ export const extractToken = (authHeader) => {
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return null;
   }
-  return authHeader.substring(7); // Remove 'Bearer ' prefix
+  return authHeader.substring(7);
 };

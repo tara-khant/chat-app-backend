@@ -15,10 +15,9 @@ Create `.env` file:
 PORT=5000
 MONGODB_URI=mongodb://localhost:27017/chat-app
 JWT_SECRET=your-super-secret-jwt-key
-NODE_ENV=development
+OPENAI_API_KEY=openai-api-key
 ```
 
 ## Scripts
 
-- `npm start` - Start the development server
-- `npm test` - Run tests
+- `npm run dev` - Start the development server

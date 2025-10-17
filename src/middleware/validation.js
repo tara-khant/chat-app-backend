@@ -19,7 +19,6 @@ export const validateSchema = (schema, source = 'body') => {
     try {
       const data = req[source];
       const validatedData = schema.parse(data);
-      // Replace original data with validated/transformed data
       req[source] = validatedData;
 
       next();
